@@ -1,0 +1,29 @@
+# lets create a docker-compose for this monorepo
+version: "3.8"
+
+services:
+  mongo:
+    image: mongo:7.0
+    container_name: mongoDB
+    ports:
+      - "27017:27017"
+
+  example-package:
+    build:
+      context: ./
+      dockerfile: Dockerfile.example
+    container_name: exampleService
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+
+  core-package:
+    build:
+      context: ./
+      dockerfile: Dockerfile.core
+    container_name: coreService
+    ports:
+      - "3001:3001"
+    depends_on:
+      - mongo

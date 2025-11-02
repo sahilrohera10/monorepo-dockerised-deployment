@@ -1,0 +1,17 @@
+{
+  "name": "@monorepo/shared",
+  "version": "1.0.0",
+  "description": "Shared utilities and configurations for monorepo packages",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "echo 'Building shared'",
+    "test": "echo 'Testing shared'",
+    "clean": "echo 'Cleaning shared'"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mongoose": "^8.19.2"
+  }
+}

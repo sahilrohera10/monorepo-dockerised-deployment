@@ -1,0 +1,20 @@
+{
+  "name": "@monorepo/example-package",
+  "version": "1.0.0",
+  "description": "Example package in the monorepo",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon node index.js",
+    "build": "echo 'Building example-package'",
+    "test": "echo 'Testing example-package'",
+    "clean": "echo 'Cleaning example-package'"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@monorepo/shared": "workspace:*",
+    "express": "^5.1.0",
+    "nodemon": "^3.1.10"
+  }
+}
