@@ -9,7 +9,11 @@ monorepo_deployment/
 ├── packages/              # Workspace packages
 │   ├── example-package/   # Example/UI package (port 3000)
 │   ├── core-package/      # Core business logic (port 3001)
+│   ├── core-front/        # React frontend (port 3002)
 │   └── shared/            # Shared utilities (database, config, etc.)
+├── Dockerfile.*           # Dockerfiles for each service
+├── docker-compose.yml     # Multi-container orchestration
+├── Makefile              # Common Docker commands
 ├── package.json           # Root package configuration
 ├── .gitignore            # Git ignore rules
 └── README.md             # This file
@@ -31,6 +35,11 @@ monorepo_deployment/
 3. **@monorepo/core-package** - Core business logic
    - Express server on port 3001
    - Uses shared database connection
+
+4. **@monorepo/core-front** - React frontend
+   - Vite + React 18
+   - Hot module replacement
+   - Port 3002
 
 ### Design Decisions
 
@@ -71,10 +80,20 @@ yarn start:all
 - `yarn start` - Start the example package (default)
 - `yarn start:example` - Start example package on port 3000
 - `yarn start:core` - Start core package on port 3001
+- `yarn start:front` - Start React frontend on port 3002
 - `yarn start:all` - Start all packages
 - `yarn build` - Build all packages
 - `yarn test:all` - Run tests in all packages
 - `yarn clean` - Clean all packages
+
+### Docker Commands
+
+- `make build` - Build all Docker images
+- `make up` - Start all services with docker-compose
+- `make down` - Stop all services
+- `make logs` - View logs from all services
+- `make clean` - Clean Docker volumes and images
+- `make rebuild` - Rebuild and restart services
 
 ## Environment Configuration
 
@@ -172,6 +191,43 @@ The shared package implements a singleton pattern for database connections:
 
 This prevents connection pool exhaustion and ensures consistent database state.
 
+## Docker Deployment
+
+### Using Docker Compose (Recommended)
+
+Start all services with one command:
+
+```bash
+make up
+# or
+docker-compose up -d
+```
+
+This starts:
+- MongoDB on port 27017
+- Example package on port 3000
+- Core package on port 3001
+- Frontend on port 3002
+
+### Individual Docker Builds
+
+```bash
+# Build individual services
+make build-example
+make build-core
+make build-frontend
+
+# Or use docker directly
+docker build -f Dockerfile.example -t example-package-image .
+docker build -f Dockerfile.core -t core-package-image .
+docker build -f Dockerfile.frontend -t core-frontend-image .
+```
+
+### Development vs Production
+
+- **Development**: Use `yarn start` commands for hot reload
+- **Production**: Use Docker images with optimized builds
+
 ## Best Practices Implemented
 
 ✅ Shared utilities in dedicated package
@@ -181,3 +237,6 @@ This prevents connection pool exhaustion and ensures consistent database state.
 ✅ Proper package naming with @monorepo/ namespace
 ✅ Workspace dependencies with `workspace:*` protocol
 ✅ Clear separation of concerns
+✅ Docker support for containerization
+✅ React with Vite for modern frontend
+✅ Multi-stage builds for optimization

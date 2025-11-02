@@ -36,3 +36,6 @@ build-example:
 build-core:
 	docker build -f Dockerfile.core -t core-package-image .
 
+build-frontend:
+	docker build -f Dockerfile.frontend -t core-frontend-image .
+

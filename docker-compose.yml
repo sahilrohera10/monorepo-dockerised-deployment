@@ -27,3 +27,13 @@ services:
       - "3001:3001"
     depends_on:
       - mongo
+
+  core-front:
+    build:
+      context: ./
+      dockerfile: Dockerfile.front
+    container_name: frontService
+    ports:
+      - "3002:3002"
+    depends_on:
+      - core-package
